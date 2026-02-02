@@ -43,22 +43,15 @@ print("\033[2J")
 
 myVariable = 0
 
-'''
-def controller_1buttonX_pressed_callback_0():
-    global myVariable
-    Upper.spin(FORWARD)
-    rightIN.spin(FORWARD)
-    leftIN.spin(REVERSE)
+def controller_1buttonY_pressed():
     Upper.set_velocity(70, PERCENT)
     leftIN.set_velocity(70, PERCENT)
     rightIN.set_velocity(70, PERCENT)
-    wait(6, SECONDS)
-    Upper.stop()
-    rightIN.stop()
-    leftIN.stop()
 
-'''
-
+    Upper.spin(REVERSE)
+    rightIN.spin(FORWARD)
+    leftIN.spin(REVERSE)
+    
 def controller_1buttonX_pressed():
     Upper.set_velocity(70, PERCENT)
     leftIN.set_velocity(70, PERCENT)
@@ -68,7 +61,7 @@ def controller_1buttonX_pressed():
     rightIN.spin(REVERSE)
     leftIN.spin(FORWARD)
 
-def controller_1buttonX_released():
+def controller_1button_released():
     Upper.stop(COAST)
     rightIN.stop(COAST)
     leftIN.stop(COAST)
@@ -76,7 +69,9 @@ def controller_1buttonX_released():
 
 # system event handlers
 controller_1.buttonX.pressed(controller_1buttonX_pressed)
-controller_1.buttonX.released(controller_1buttonX_released)
+controller_1.buttonY.pressed(controller_1buttonY_pressed)
+controller_1.buttonY.released(controller_1button_released)
+controller_1.buttonX.released(controller_1button_released)
 
 DEADZONE = 5
 
@@ -84,7 +79,7 @@ DEADZONE = 5
 def drivercontrol():
     while True:
         forward = controller_1.axis3.position()
-        turn = controller_1.axis1.position()
+        turn = controller_1.axis4.position()
 
         # Apply deadzone
         if abs(forward) < DEADZONE:
