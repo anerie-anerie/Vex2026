@@ -6,7 +6,7 @@ Lower Center Goal: Approximately 0.5 inches.'''
 
 #auto routes: use 2 pre-loaded and score into upper central goal or low central goal -> intake more
 
-#starts right from the goal (put robot in backwards position, moves forward then turns left
+#starts right from the goal (put robot in backwards position, moves forward then turns left and then drives forward while outtaking)
 def auto():
     brain.screen.clear_screen()
     brain.screen.set_cursor(1,1)
