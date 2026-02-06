@@ -1,5 +1,5 @@
 '''
-auto code
+auto code options (anerie will add more paths tonight)
 Approximately 12.67 inches to the bottom lip.
 Upper Center Goal: Approximately 8.01 inches to the bottom lip.
 Lower Center Goal: Approximately 0.5 inches.'''
