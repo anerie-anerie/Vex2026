@@ -49,16 +49,14 @@ print("\033[2J")
 # constants
 
 AUTO_TEST = True   # <-- CHANGE TO False FOR REAL MATCHES
-DEADZONE = 4
+DEADZONE = 6
 
 # Better stopping for accurate autos
 left_drive_smart.set_stopping(BRAKE)
 right_drive_smart.set_stopping(BRAKE)
 
 
-############################################
-# ⭐ INTAKE BUTTONS
-############################################
+# INTAKE BUTTONS
 
 def controller_1buttonY_pressed():
     Upper.set_velocity(70, PERCENT)
@@ -88,10 +86,22 @@ def controller_1button_released():
     leftIN.stop(COAST)
 
 
+def controller_1buttonA_pressed():
+    #intake flaps at bottom
+    leftIN.set_velocity(80, PERCENT)
+    rightIN.set_velocity(80, PERCENT)
 
-############################################
-# ⭐ DRIVER CONTROL
-############################################
+    # Intake
+    rightIN.spin(REVERSE)
+    leftIN.spin(FORWARD)
+
+def controller_1buttonB_pressed():
+    Upper.set_velocity(80, PERCENT)
+
+    # Intake
+    Upper.spin(FORWARD)
+
+# DRIVER CONTROL
 
 def drivercontrol():
 #left joystick forward and backwards, right joystick is right and left
@@ -118,9 +128,11 @@ def drivercontrol():
 
         wait(10, MSEC)
 
+#kept two different auto functions in case of turning angle issues
 
+def auto_right():
 
-def auto():
+    #robot on the right of the goal    
     brain.screen.clear_screen()
     brain.screen.set_cursor(1,1)
     brain.screen.print("AUTO STARTING")
@@ -151,13 +163,51 @@ def auto():
     rightIN.stop()
     leftIN.stop()
 
+def auto_left():
+
+    #robot on the left of the goal    
+    brain.screen.clear_screen()
+    brain.screen.set_cursor(1,1)
+    brain.screen.print("AUTO STARTING")
+    drivetrain.set_drive_velocity(60, PERCENT)
+
+    # Drive forward 30 inches
+    drivetrain.drive_for(REVERSE, 30, INCHES)
+
+    # Turn left 45°
+    drivetrain.turn_for(RIGHT, 45, DEGREES)
+
+    # Start outtake
+    Upper.set_velocity(70, PERCENT)
+    leftIN.set_velocity(70, PERCENT)
+    rightIN.set_velocity(70, PERCENT)
+
+    Upper.spin(FORWARD)
+    rightIN.spin(REVERSE)
+    leftIN.spin(FORWARD)
+
+    # Drive forward while outtaking
+    drivetrain.drive_for(REVERSE, 7, INCHES)
+
+    wait(2000, MSEC)
+
+    # Stop motors
+    Upper.stop()
+    rightIN.stop()
+    leftIN.stop()
+
 controller_1.buttonX.pressed(controller_1buttonX_pressed)
 controller_1.buttonY.pressed(controller_1buttonY_pressed)
 controller_1.buttonX.released(controller_1button_released)
 controller_1.buttonY.released(controller_1button_released)
+controller_1.buttonA.released(controller_1button_released)
+controller_1.buttonB.released(controller_1button_released)
+controller_1.buttonA.pressed(controller_1buttonA_pressed)
+controller_1.buttonB.pressed(controller_1buttonB_pressed)
+
 
 wait(2000, MSEC)
 
-auto()
+auto_right()
 
 drivercontrol()
