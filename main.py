@@ -130,15 +130,15 @@ def auto_right_low():
     drivetrain.set_drive_velocity(80, PERCENT)
 
     # Drive forward 30 inches
-    drivetrain.drive_for(FORWARD, 27, INCHES)
+    drivetrain.drive_for(FORWARD, 32, INCHES)
 
     # Turn left 45°
-    drivetrain.turn_for(LEFT, 45, DEGREES)
+    drivetrain.turn_for(LEFT, 35, DEGREES)
 
     # Start outtake
-    Upper.set_velocity(30, PERCENT)
-    leftIN.set_velocity(30, PERCENT)
-    rightIN.set_velocity(30, PERCENT)
+    Upper.set_velocity(50, PERCENT)
+    leftIN.set_velocity(60, PERCENT)
+    rightIN.set_velocity(60, PERCENT)
 
     Upper.spin(REVERSE)
     rightIN.spin(REVERSE)
@@ -213,7 +213,7 @@ controller_1.buttonL2.released(intake_stop)
 controller_1.buttonR1.released(intake_stop)
 controller_1.buttonR2.released(intake_stop)
 
-
+'''
 def ondriver_drivercontrol_0():
     drivercontrol()
 
@@ -249,7 +249,6 @@ competition = Competition( vexcode_driver_function, vexcode_auton_function )
 
 wait(2000, MSEC)
 #testing mode
-auto_left_high()
+auto_right_low()
 
 drivercontrol()
-'''
