@@ -29,9 +29,11 @@ def auto():
     leftIN.spin(FORWARD)
 
     # Drive forward while outtaking
-    drivetrain.drive_for(FORWARD, 7, INCHES)
+    drivetrain.drive_for(REVERSE, 7, INCHES)
 
     # Stop motors
     Upper.stop()
     rightIN.stop()
     leftIN.stop()
+
+auto()
