@@ -16,6 +16,10 @@ leftIN = Motor(Ports.PORT14, GearSetting.RATIO_18_1, False)
 left_drive_smart = Motor(Ports.PORT10, GearSetting.RATIO_18_1, True)
 right_drive_smart = Motor(Ports.PORT6, GearSetting.RATIO_18_1, False)
 
+Upper.set_velocity(80, PERCENT)
+leftIN.set_velocity(80, PERCENT)
+rightIN.set_velocity(80, PERCENT)
+
 # Drivetrain (REQUIRED for auto)
 drivetrain = DriveTrain(left_drive_smart, right_drive_smart, 319.19, 295, 40, MM, 1)
 
@@ -47,9 +51,6 @@ right_drive_smart.set_stopping(BRAKE)
 # intake/outtake commands
 
 def outtake_all():
-    Upper.set_velocity(70, PERCENT)
-    leftIN.set_velocity(70, PERCENT)
-    rightIN.set_velocity(70, PERCENT)
 
     # Outtake
     Upper.spin(REVERSE)
@@ -58,9 +59,6 @@ def outtake_all():
 
 
 def intake_all():
-    Upper.set_velocity(70, PERCENT)
-    leftIN.set_velocity(70, PERCENT)
-    rightIN.set_velocity(70, PERCENT)
 
     # Intake
     Upper.spin(FORWARD)
@@ -76,8 +74,6 @@ def intake_stop():
 
 def intake_roller():
     #intake flaps at bottom
-    leftIN.set_velocity(80, PERCENT)
-    rightIN.set_velocity(80, PERCENT)
 
     # Intake
     rightIN.spin(REVERSE)
@@ -85,19 +81,15 @@ def intake_roller():
 
 def outtake_roller():
     #outtake flaps at bottom
-    leftIN.set_velocity(80, PERCENT)
-    rightIN.set_velocity(80, PERCENT)
 
     # outtake
     rightIN.spin(FORWARD)
     leftIN.spin(REVERSE)
 
 def intake_belt():
-    Upper.set_velocity(80, PERCENT)
     Upper.spin(FORWARD)
     
 def outtake_belt():
-    Upper.set_velocity(80, PERCENT)
     Upper.spin(REVERSE)
 
 # DRIVER CONTROL
@@ -135,6 +127,7 @@ def auto_right():
     brain.screen.clear_screen()
     brain.screen.set_cursor(1,1)
     brain.screen.print("AUTO STARTING")
+    #slow down speeds for auto
     drivetrain.set_drive_velocity(60, PERCENT)
 
     # Drive forward 30 inches
@@ -177,9 +170,9 @@ def auto_left():
     drivetrain.turn_for(RIGHT, 45, DEGREES)
 
     # Start outtake
-    Upper.set_velocity(70, PERCENT)
-    leftIN.set_velocity(70, PERCENT)
-    rightIN.set_velocity(70, PERCENT)
+    Upper.set_velocity(80, PERCENT)
+    leftIN.set_velocity(80, PERCENT)
+    rightIN.set_velocity(80, PERCENT)
 
     Upper.spin(FORWARD)
     rightIN.spin(REVERSE)
@@ -245,4 +238,3 @@ def vexcode_driver_function():
 competition = Competition( vexcode_driver_function, vexcode_auton_function )
 
 wait(2000, MSEC)
-
