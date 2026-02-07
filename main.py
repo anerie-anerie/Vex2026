@@ -165,10 +165,10 @@ def auto_left_high():
     brain.screen.print("AUTO STARTING")
 
     #robot is backwards positioned to the left
-    drivetrain.set_drive_velocity(80, PERCENT)
+    drivetrain.set_drive_velocity(70, PERCENT)
 
     # Drive forward 30 inches
-    drivetrain.drive_for(REVERSE, 30, INCHES)
+    drivetrain.drive_for(REVERSE, 27, INCHES)
 
     # Turn left 45°
     drivetrain.turn_for(RIGHT, 45, DEGREES)
@@ -183,7 +183,7 @@ def auto_left_high():
     leftIN.spin(FORWARD)
 
     # Drive forward while outtaking
-    drivetrain.drive_for(REVERSE, 7, INCHES)
+    drivetrain.drive_for(REVERSE, 8, INCHES)
 
     Upper.set_velocity(80, PERCENT)
     leftIN.set_velocity(80, PERCENT)
@@ -213,13 +213,13 @@ controller_1.buttonL2.released(intake_stop)
 controller_1.buttonR1.released(intake_stop)
 controller_1.buttonR2.released(intake_stop)
 
-'''
+
 def ondriver_drivercontrol_0():
     drivercontrol()
 
 def onauton_autonomous_0():
     #pick the auto in here
-    auto_right_low()
+    auto_left_high()
 
 def vexcode_auton_function():
     # Start the autonomous control tasks
@@ -247,7 +247,9 @@ competition = Competition( vexcode_driver_function, vexcode_auton_function )
 
 '''
 
+wait(2000, MSEC)
 #testing mode
 auto_left_high()
 
 drivercontrol()
+'''
