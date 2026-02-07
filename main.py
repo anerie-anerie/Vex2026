@@ -242,36 +242,12 @@ def vexcode_driver_function():
     # Stop the driver control tasks
     driver_control_task_0.stop()
 
+
+competition = Competition( vexcode_driver_function, vexcode_auton_function )
+
 '''
-# register the competition functions (comp mode... fancy)
-#competition = Competition( vexcode_driver_function, vexcode_auton_function )
-brain.screen.clear_screen()
-brain.screen.set_cursor(1,1)
-brain.screen.print("AUTO IN 5")
 
-wait(1000, MSEC)
-brain.screen.clear_screen()
-brain.screen.set_cursor(1,1)
-brain.screen.print("AUTO IN 4")
-
-wait(1000, MSEC)
-brain.screen.clear_screen()
-brain.screen.set_cursor(1,1)
-brain.screen.print("AUTO IN 3")
-
-wait(1000, MSEC)
-
-brain.screen.clear_screen()
-brain.screen.set_cursor(1,1)
-brain.screen.print("AUTO IN 2")
-
-wait(1000, MSEC)
-
-brain.screen.clear_screen()
-brain.screen.set_cursor(1,1)
-brain.screen.print("AUTO IN 1")
-
-wait(1000, MSEC)
+#testing mode
 auto_left_high()
 
 drivercontrol()
