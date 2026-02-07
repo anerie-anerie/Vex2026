@@ -41,7 +41,7 @@ wait(200, MSEC)
 print("\033[2J")
 
 #CONSTANTS
-DEADZONE = 6
+DEADZONE = 10
 
 # Better stopping for accurate autos
 left_drive_smart.set_stopping(BRAKE)
@@ -127,10 +127,10 @@ def auto_right_low():
     brain.screen.clear_screen()
     brain.screen.set_cursor(1,1)
     brain.screen.print("AUTO STARTING")
-    drivetrain.set_drive_velocity(60, PERCENT)
+    drivetrain.set_drive_velocity(80, PERCENT)
 
     # Drive forward 30 inches
-    drivetrain.drive_for(FORWARD, 30, INCHES)
+    drivetrain.drive_for(FORWARD, 27, INCHES)
 
     # Turn left 45°
     drivetrain.turn_for(LEFT, 45, DEGREES)
@@ -145,12 +145,12 @@ def auto_right_low():
     leftIN.spin(REVERSE)
 
     # Drive forward while outtaking
-    drivetrain.drive_for(REVERSE, 7, INCHES)
+    drivetrain.drive_for(FORWARD, 7, INCHES)
     Upper.set_velocity(80, PERCENT)
     leftIN.set_velocity(80, PERCENT)
     rightIN.set_velocity(80, PERCENT)
 
-    wait(3000, MSEC)
+    wait(5000, MSEC)
 
     # Stop motors
     Upper.stop()
@@ -165,7 +165,7 @@ def auto_left_high():
     brain.screen.print("AUTO STARTING")
 
     #robot is backwards positioned to the left
-    drivetrain.set_drive_velocity(60, PERCENT)
+    drivetrain.set_drive_velocity(80, PERCENT)
 
     # Drive forward 30 inches
     drivetrain.drive_for(REVERSE, 30, INCHES)
@@ -189,7 +189,7 @@ def auto_left_high():
     leftIN.set_velocity(80, PERCENT)
     rightIN.set_velocity(80, PERCENT)
 
-    wait(3000, MSEC)
+    wait(5000, MSEC)
 
     # Stop motors
     Upper.stop()
@@ -213,6 +213,7 @@ controller_1.buttonL2.released(intake_stop)
 controller_1.buttonR1.released(intake_stop)
 controller_1.buttonR2.released(intake_stop)
 
+'''
 def ondriver_drivercontrol_0():
     drivercontrol()
 
@@ -241,9 +242,36 @@ def vexcode_driver_function():
     # Stop the driver control tasks
     driver_control_task_0.stop()
 
-
+'''
 # register the competition functions (comp mode... fancy)
-competition = Competition( vexcode_driver_function, vexcode_auton_function )
+#competition = Competition( vexcode_driver_function, vexcode_auton_function )
+brain.screen.clear_screen()
+brain.screen.set_cursor(1,1)
+brain.screen.print("AUTO IN 5")
 
-wait(3000, MSEC)
-auto_right_low()
+wait(1000, MSEC)
+brain.screen.clear_screen()
+brain.screen.set_cursor(1,1)
+brain.screen.print("AUTO IN 4")
+
+wait(1000, MSEC)
+brain.screen.clear_screen()
+brain.screen.set_cursor(1,1)
+brain.screen.print("AUTO IN 3")
+
+wait(1000, MSEC)
+
+brain.screen.clear_screen()
+brain.screen.set_cursor(1,1)
+brain.screen.print("AUTO IN 2")
+
+wait(1000, MSEC)
+
+brain.screen.clear_screen()
+brain.screen.set_cursor(1,1)
+brain.screen.print("AUTO IN 1")
+
+wait(1000, MSEC)
+auto_left_high()
+
+drivercontrol()
