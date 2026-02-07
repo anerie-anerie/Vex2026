@@ -213,13 +213,13 @@ controller_1.buttonL2.released(intake_stop)
 controller_1.buttonR1.released(intake_stop)
 controller_1.buttonR2.released(intake_stop)
 
-'''
+
 def ondriver_drivercontrol_0():
     drivercontrol()
 
 def onauton_autonomous_0():
     #pick the auto in here
-    auto_left_high()
+    auto_right_low()
 
 def vexcode_auton_function():
     # Start the autonomous control tasks
@@ -252,3 +252,4 @@ wait(2000, MSEC)
 auto_right_low()
 
 drivercontrol()
+'''
