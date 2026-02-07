@@ -140,9 +140,9 @@ def auto_right_low():
     leftIN.set_velocity(60, PERCENT)
     rightIN.set_velocity(60, PERCENT)
 
-    Upper.spin(REVERSE)
-    rightIN.spin(REVERSE)
-    leftIN.spin(REVERSE)
+    Upper.spin(FORWARD)
+    rightIN.spin(FORWARD)
+    leftIN.spin(FORWARD)
 
     # Drive forward while outtaking
     drivetrain.drive_for(FORWARD, 7, INCHES)
