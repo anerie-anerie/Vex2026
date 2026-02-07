@@ -18,9 +18,9 @@ right_drive_smart = Motor(Ports.PORT6, GearSetting.RATIO_18_1, False)
 
 # Drivetrain (REQUIRED for auto)
 drivetrain = DriveTrain(left_drive_smart, right_drive_smart, 319.19, 295, 40, MM, 1)
+
 # wait for rotation sensor to fully initialize
 wait(30, MSEC)
-
 
 # Make random actually random
 def initializeRandomSeed():
@@ -31,24 +31,12 @@ def initializeRandomSeed():
 # Set random seed 
 initializeRandomSeed()
 
-
-def play_vexcode_sound(sound_name):
-    # Helper to make playing sounds from the V5 in VEXcode easier and
-    # keeps the code cleaner by making it clear what is happening.
-    print("VEXPlaySound:" + sound_name)
-    wait(5, MSEC)
-
 # add a small delay to make sure we don't print in the middle of the REPL header
 wait(200, MSEC)
 # clear the console to make sure we don't have the REPL in the console
 print("\033[2J")
 
-#endregion VEXcode Generated Robot Configuration
-
-
-# constants
-
-AUTO_TEST = True   # <-- CHANGE TO False FOR REAL MATCHES
+#CONSTANTS
 DEADZONE = 6
 
 # Better stopping for accurate autos
@@ -56,9 +44,9 @@ left_drive_smart.set_stopping(BRAKE)
 right_drive_smart.set_stopping(BRAKE)
 
 
-# INTAKE BUTTONS
+# intake/outtake commands
 
-def controller_1buttonY_pressed():
+def outtake_all():
     Upper.set_velocity(70, PERCENT)
     leftIN.set_velocity(70, PERCENT)
     rightIN.set_velocity(70, PERCENT)
@@ -69,7 +57,7 @@ def controller_1buttonY_pressed():
     leftIN.spin(REVERSE)
 
 
-def controller_1buttonX_pressed():
+def intake_all():
     Upper.set_velocity(70, PERCENT)
     leftIN.set_velocity(70, PERCENT)
     rightIN.set_velocity(70, PERCENT)
@@ -80,13 +68,13 @@ def controller_1buttonX_pressed():
     leftIN.spin(FORWARD)
 
 
-def controller_1button_released():
+def intake_stop():
     Upper.stop(COAST)
     rightIN.stop(COAST)
     leftIN.stop(COAST)
 
 
-def controller_1buttonA_pressed():
+def intake_roller():
     #intake flaps at bottom
     leftIN.set_velocity(80, PERCENT)
     rightIN.set_velocity(80, PERCENT)
@@ -95,11 +83,22 @@ def controller_1buttonA_pressed():
     rightIN.spin(REVERSE)
     leftIN.spin(FORWARD)
 
-def controller_1buttonB_pressed():
-    Upper.set_velocity(80, PERCENT)
+def outtake_roller():
+    #outtake flaps at bottom
+    leftIN.set_velocity(80, PERCENT)
+    rightIN.set_velocity(80, PERCENT)
 
-    # Intake
+    # outtake
+    rightIN.spin(FORWARD)
+    leftIN.spin(REVERSE)
+
+def intake_belt():
+    Upper.set_velocity(80, PERCENT)
     Upper.spin(FORWARD)
+    
+def outtake_belt():
+    Upper.set_velocity(80, PERCENT)
+    Upper.spin(REVERSE)
 
 # DRIVER CONTROL
 
@@ -196,18 +195,54 @@ def auto_left():
     rightIN.stop()
     leftIN.stop()
 
-controller_1.buttonX.pressed(controller_1buttonX_pressed)
-controller_1.buttonY.pressed(controller_1buttonY_pressed)
-controller_1.buttonX.released(controller_1button_released)
-controller_1.buttonY.released(controller_1button_released)
-controller_1.buttonA.released(controller_1button_released)
-controller_1.buttonB.released(controller_1button_released)
-controller_1.buttonA.pressed(controller_1buttonA_pressed)
-controller_1.buttonB.pressed(controller_1buttonB_pressed)
+#button bindings
+controller_1.buttonX.pressed(intake_all)
+controller_1.buttonY.pressed(outtake_all)
 
+controller_1.buttonL1.pressed(intake_roller)
+controller_1.buttonL2.pressed(outtake_roller)
+controller_1.buttonR1.pressed(intake_belt)
+controller_1.buttonR2.pressed(outtake_belt)
+
+controller_1.buttonX.released(intake_stop)
+controller_1.buttonY.released(intake_stop)
+
+controller_1.buttonL1.released(intake_stop)
+controller_1.buttonL2.released(intake_stop)
+controller_1.buttonR1.released(intake_stop)
+controller_1.buttonR2.released(intake_stop)
+
+def ondriver_drivercontrol_0():
+    drivercontrol()
+
+def onauton_autonomous_0():
+    #pick the auto in here
+    auto_right()
+
+def vexcode_auton_function():
+    # Start the autonomous control tasks
+    auton_task_0 = Thread( onauton_autonomous_0 )
+    # wait for the driver control period to end
+    while( competition.is_autonomous() and competition.is_enabled() ):
+        # wait 10 milliseconds before checking again
+        wait( 10, MSEC )
+    # Stop the autonomous control tasks
+    auton_task_0.stop()
+
+def vexcode_driver_function():
+    # Start the driver control tasks
+    driver_control_task_0 = Thread( ondriver_drivercontrol_0 )
+
+    # wait for the driver control period to end
+    while( competition.is_driver_control() and competition.is_enabled() ):
+        # wait 10 milliseconds before checking again
+        wait( 10, MSEC )
+    # Stop the driver control tasks
+    driver_control_task_0.stop()
+
+
+# register the competition functions (comp mode... fancy)
+competition = Competition( vexcode_driver_function, vexcode_auton_function )
 
 wait(2000, MSEC)
 
-auto_right()
-
-drivercontrol()
