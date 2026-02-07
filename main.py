@@ -10,7 +10,7 @@ brain=Brain()
 controller_1 = Controller(PRIMARY)
 
 Upper = Motor(Ports.PORT1, GearSetting.RATIO_18_1, False)
-rightIN = Motor(Ports.PORT2, GearSetting.RATIO_18_1, False)
+rightIN = Motor(Ports.PORT2, GearSetting.RATIO_18_1, True)
 leftIN = Motor(Ports.PORT14, GearSetting.RATIO_18_1, False)
 
 left_drive_smart = Motor(Ports.PORT10, GearSetting.RATIO_18_1, True)
@@ -54,7 +54,7 @@ def outtake_all():
 
     # Outtake
     Upper.spin(REVERSE)
-    rightIN.spin(FORWARD)
+    rightIN.spin(REVERSE)
     leftIN.spin(REVERSE)
 
 
@@ -62,7 +62,7 @@ def intake_all():
 
     # Intake
     Upper.spin(FORWARD)
-    rightIN.spin(REVERSE)
+    rightIN.spin(FORWARD)
     leftIN.spin(FORWARD)
 
 
@@ -76,14 +76,14 @@ def intake_roller():
     #intake flaps at bottom
 
     # Intake
-    rightIN.spin(REVERSE)
+    rightIN.spin(FORWARD)
     leftIN.spin(FORWARD)
 
 def outtake_roller():
     #outtake flaps at bottom
 
     # outtake
-    rightIN.spin(FORWARD)
+    rightIN.spin(REVERSE)
     leftIN.spin(REVERSE)
 
 def intake_belt():
@@ -121,46 +121,50 @@ def drivercontrol():
 
 #kept two different auto functions in case of turning angle issues
 
-def auto_right():
+def auto_right_low():
 
-    #robot on the right of the goal    
+    #robot FORWARD facing on the right of the goal to score onto the low goal
     brain.screen.clear_screen()
     brain.screen.set_cursor(1,1)
     brain.screen.print("AUTO STARTING")
-    #slow down speeds for auto
     drivetrain.set_drive_velocity(60, PERCENT)
 
     # Drive forward 30 inches
-    drivetrain.drive_for(REVERSE, 30, INCHES)
+    drivetrain.drive_for(FORWARD, 30, INCHES)
 
     # Turn left 45°
     drivetrain.turn_for(LEFT, 45, DEGREES)
 
     # Start outtake
-    Upper.set_velocity(70, PERCENT)
-    leftIN.set_velocity(70, PERCENT)
-    rightIN.set_velocity(70, PERCENT)
+    Upper.set_velocity(30, PERCENT)
+    leftIN.set_velocity(30, PERCENT)
+    rightIN.set_velocity(30, PERCENT)
 
-    Upper.spin(FORWARD)
+    Upper.spin(REVERSE)
     rightIN.spin(REVERSE)
-    leftIN.spin(FORWARD)
+    leftIN.spin(REVERSE)
 
     # Drive forward while outtaking
     drivetrain.drive_for(REVERSE, 7, INCHES)
+    Upper.set_velocity(80, PERCENT)
+    leftIN.set_velocity(80, PERCENT)
+    rightIN.set_velocity(80, PERCENT)
 
-    wait(2000, MSEC)
+    wait(3000, MSEC)
 
     # Stop motors
     Upper.stop()
     rightIN.stop()
     leftIN.stop()
 
-def auto_left():
+def auto_left_high():
 
-    #robot on the left of the goal    
+    #robot on the left of the goal (starting backwards) to score in the high goal  
     brain.screen.clear_screen()
     brain.screen.set_cursor(1,1)
     brain.screen.print("AUTO STARTING")
+
+    #robot is backwards positioned to the left
     drivetrain.set_drive_velocity(60, PERCENT)
 
     # Drive forward 30 inches
@@ -170,18 +174,22 @@ def auto_left():
     drivetrain.turn_for(RIGHT, 45, DEGREES)
 
     # Start outtake
-    Upper.set_velocity(80, PERCENT)
-    leftIN.set_velocity(80, PERCENT)
-    rightIN.set_velocity(80, PERCENT)
+    Upper.set_velocity(30, PERCENT)
+    leftIN.set_velocity(30, PERCENT)
+    rightIN.set_velocity(30, PERCENT)
 
     Upper.spin(FORWARD)
-    rightIN.spin(REVERSE)
+    rightIN.spin(FORWARD)
     leftIN.spin(FORWARD)
 
     # Drive forward while outtaking
     drivetrain.drive_for(REVERSE, 7, INCHES)
 
-    wait(2000, MSEC)
+    Upper.set_velocity(80, PERCENT)
+    leftIN.set_velocity(80, PERCENT)
+    rightIN.set_velocity(80, PERCENT)
+
+    wait(3000, MSEC)
 
     # Stop motors
     Upper.stop()
@@ -210,7 +218,7 @@ def ondriver_drivercontrol_0():
 
 def onauton_autonomous_0():
     #pick the auto in here
-    auto_right()
+    auto_right_low()
 
 def vexcode_auton_function():
     # Start the autonomous control tasks
@@ -237,4 +245,5 @@ def vexcode_driver_function():
 # register the competition functions (comp mode... fancy)
 competition = Competition( vexcode_driver_function, vexcode_auton_function )
 
-wait(2000, MSEC)
+wait(3000, MSEC)
+auto_right_low()
